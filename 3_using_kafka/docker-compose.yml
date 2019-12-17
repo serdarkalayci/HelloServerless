@@ -6,6 +6,7 @@ services:
     image: 'wurstmeister/zookeeper:latest'
     environment: 
       - ALLOW_ANONYMOUS_LOGIN=yes
+    container_name: 'helloserverless-zookeper'
   kafka:
     image: 'wurstmeister/kafka:latest'
     ports:
@@ -14,5 +15,4 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_CREATE_TOPICS: "test:1:1"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-    # volumes:
-    #   - /var/run/docker.sock:/var/run/docker.sock
+    container_name: 'helloserverless-kafka'

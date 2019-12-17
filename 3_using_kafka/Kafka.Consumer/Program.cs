@@ -10,16 +10,21 @@ namespace HelloServerless.Consumer
     {
         static void Main(string[] args)
         {
+            var address = Environment.GetEnvironmentVariable("ADDRESS") ?? "kafka";
+            var port = Environment.GetEnvironmentVariable("PORT") ?? "9092";
+            var groupId = Environment.GetEnvironmentVariable("GROUPID") ?? "test-consumers";
+            var topicName = Environment.GetEnvironmentVariable("TOPICNAME") ?? "test-topic";
+
             var config = new ConsumerConfig
             {
-                GroupId = "test-consumers",
-                BootstrapServers = "kafka:9092",
+                GroupId = groupId,
+                BootstrapServers = address + ":" + port,
                 AutoOffsetReset = AutoOffsetReset.Earliest
             };
 
             using (var c = new ConsumerBuilder<int, string>(config).Build())
             {
-                c.Subscribe("test-topic");
+                c.Subscribe(topicName);
 
                 CancellationTokenSource cts = new CancellationTokenSource();
                 Console.CancelKeyPress += (_, e) => {
